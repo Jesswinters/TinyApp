@@ -8,7 +8,7 @@ app.set('view engine', 'ejs');
 
 const urlDatabase = {
   'b2xVn2': 'http://www.lighthouselabs.ca',
-  '9sm5xK': 'http://www.google.com'
+  '9sm5xK': 'http://www.google.com',
 };
 
 app.get('/', (req, res) => {
@@ -27,14 +27,21 @@ app.get('/urls/new', (req, res) => {
 app.get('/urls/:id', (req, res) => {
   let templateVars = {
     shortURL: req.params.id,
-    urls: urlDatabase
+    urls: urlDatabase,
   };
   res.render('urls_show', templateVars);
 });
 
+app.get('/u/:shortURL', (req, res) => {
+  let shortURL = req.params.shortURL;
+  let longURL = `${urlDatabase[shortURL]}`;
+  res.redirect(longURL);
+});
+
 app.post('/urls', (req, res) => {
-  console.log(req.body);  // debug statement to see POST parameters
-  res.send('Ok');         // Respond with 'Ok' (we will replace this)
+  let id = generateRandomString();
+  urlDatabase[id] = req.body.longURL;
+  res.redirect(`/urls/${id}`);
 });
 
 app.listen(PORT, () => {
@@ -51,5 +58,3 @@ function generateRandomString() {
 
   return randomString;
 }
-
-console.log(generateRandomString());
