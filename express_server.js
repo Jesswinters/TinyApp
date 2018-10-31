@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser')
 const app = express();
 const PORT = 8080;
 
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieParser());
 app.set('view engine', 'ejs');
 
 const urlDatabase = {
@@ -11,18 +13,27 @@ const urlDatabase = {
   '9sm5xK': 'http://www.google.com',
 };
 
+// Home page
 app.get('/', (req, res) => {
   res.send('Hello!');
 });
 
+// Base URLs page
 app.get('/urls', (req, res) => {
-  let templateVars = { urls: urlDatabase };
+  let templateVars = {
+    urls: urlDatabase,
+    username: req.cookies.username,
+  };
   res.render('urls_index', templateVars);
 });
 
 // Renders when adding a new long URL
 app.get('/urls/new', (req, res) => {
-  res.render('urls_new');
+  let templateVars = {
+    urls: urlDatabase,
+    username: req.cookies.username,
+  };
+  res.render('urls_new', templateVars);
 });
 
 // Displays corresponding short URL that matches :id
@@ -30,8 +41,21 @@ app.get('/urls/:id', (req, res) => {
   let templateVars = {
     shortURL: req.params.id,
     urls: urlDatabase,
+    username: req.cookies.username,
   };
   res.render('urls_show', templateVars);
+});
+
+// Login URL
+app.post('/login', (req, res) => {
+  res.cookie('username', req.body.username);
+  res.redirect('/urls/');
+});
+
+// Logout URL
+app.post('/logout', (req, res) => {
+  res.clearCookie('username');
+  res.redirect('/urls/');
 });
 
 // Update URL
