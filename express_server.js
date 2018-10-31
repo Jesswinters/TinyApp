@@ -20,10 +20,12 @@ app.get('/urls', (req, res) => {
   res.render('urls_index', templateVars);
 });
 
+// Renders when adding a new long URL
 app.get('/urls/new', (req, res) => {
   res.render('urls_new');
 });
 
+// Displays corresponding short URL that matches :id
 app.get('/urls/:id', (req, res) => {
   let templateVars = {
     shortURL: req.params.id,
@@ -32,18 +34,26 @@ app.get('/urls/:id', (req, res) => {
   res.render('urls_show', templateVars);
 });
 
+// Update URL
+app.post('/urls/:id', (req, res) => {
+  urlDatabase[req.params.id] = req.body.longURL;
+  res.redirect('/urls/');
+});
+
 // Delete URL
 app.post('/urls/:id/delete', (req, res) => {
   delete urlDatabase[req.params.id];
   res.redirect('/urls');
 });
 
+// Redirects to long URL based on short URL
 app.get('/u/:shortURL', (req, res) => {
   let shortURL = req.params.shortURL;
   let longURL = `${urlDatabase[shortURL]}`;
   res.redirect(longURL);
 });
 
+// Posts new random string for short URL when adding a new long URL
 app.post('/urls', (req, res) => {
   let id = generateRandomString();
   urlDatabase[id] = req.body.longURL;
@@ -54,6 +64,7 @@ app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
 
+// Function to generate random string for short URL
 const generateRandomString = () => {
   let randomString = '';
   let possibleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
