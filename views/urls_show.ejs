@@ -1,18 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>TinyApp</title>
-  </head>
-  <body>
-    <% include partials/_header %>
-    <ul>
-      <li><%= shortURL %></li>
-      <li><%= urls[shortURL] %></li>
-    </ul>
-    <form action="/urls/<%= shortURL %>" method="POST">
-      <label for="longURL">Update URL:</label>
-      <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px;">
-      <input type="submit" value="Submit">
-    </form>
-  </body>
-</html>
+<% include partials/_header %>
+
+<section>
+  <ul>
+    <li><%= shortURL %></li>
+    <li><%= urls[shortURL] %></li>
+  </ul>
+  <form action="/urls/<%= shortURL %>" method="POST">
+    <label for="longURL">Update URL:</label>
+    <input id="longURL" type="text" name="longURL" placeholder="http://">
+    <input type="submit" value="Submit">
+  </form>
+  
+  <span class="default-link">
+    <a href="/urls">Back</a>
+  </span>
+</section>
+
+<% include partials/_footer %>

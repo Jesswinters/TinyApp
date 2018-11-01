@@ -1,0 +1,96 @@
+/* Import Open Sans Google Font */
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+html,
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+}
+
+body {
+  padding: 1rem 2rem;
+  margin: 0;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: inline-block;
+}
+
+.logo a {
+  display: inline-block;
+  color: #202020;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: 0.2s ease;
+}
+
+.logo a:hover {
+  border-color: #000000;
+}
+
+.login-form {
+  display: inline-block;
+  margin-left: 2rem;
+}
+
+label {
+  display: block;
+}
+
+input[type='text'] {
+  width: 15rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+input[type='submit'] {
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: #f0f0f0;
+  border: 1px solid #000000;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+input[type='submit']:hover {
+  background-color: #FFFFFF;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+.url-info {
+  margin-top: 0.5rem;
+}
+
+.url-edit,
+.url-delete {
+  display: inline-block;
+  margin-top: 0.25rem;
+}
+
+.url-edit a,
+.default-link a {
+  color: #167FFB;
+}
+
+.url-delete button {
+  font-size: 1rem;
+  color: #167FFB;
+  text-decoration: underline;
+  border: 0;
+  cursor: pointer;
+}
+
+.default-link {
+  display: block;
+  margin-top: 2rem;
+}

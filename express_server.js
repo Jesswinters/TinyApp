@@ -4,9 +4,10 @@ const cookieParser = require('cookie-parser')
 const app = express();
 const PORT = 8080;
 
+app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
-app.set('view engine', 'ejs');
+app.use('/styles', express.static(__dirname + '/styles'));
 
 const urlDatabase = {
   'b2xVn2': 'http://www.lighthouselabs.ca',

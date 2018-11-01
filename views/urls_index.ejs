@@ -1,23 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>TinyApp</title>
-  </head>
-  <body>
-    <% include partials/_header %>
-    <ul>
-      <% for (let url in urls) { %>
-        <li><%= url + ': ' + urls[url] %></li>
-        <li>
-          <a href="/urls/<%=url %>">Edit</a>
-        </li>
-        <li>
-          <form method="POST" action="/urls/<%=url %>/delete">
-            <button>BALEET</button>
-          </form>
-        </li>
-      <% } %>
-      <li><a href="#">Shorten New URL</li>
-    </ul>
-  </body>
-</html>
+<% include partials/_header %>
+
+<section>
+  <ul>
+    <% for (let url in urls) { %>
+      <li class="url-info">
+        <%= url + ': ' + urls[url] %>
+      </li>
+      <li class="url-edit">
+        <a href="/urls/<%=url %>">Edit</a>
+      </li>
+      <li class="url-delete">
+        <form method="POST" action="/urls/<%=url %>/delete">
+          <button>Delete</button>
+        </form>
+      </li>
+    <% } %>
+  </ul>
+  
+  <span class="default-link">
+    <a href="/urls/new">Shorten New URL</a>
+  </span>
+</section>
+
+<% include partials/_footer %>
