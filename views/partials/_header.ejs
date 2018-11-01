@@ -3,7 +3,9 @@
   <meta charset="UTF-8">
   <head>
     <title>TinyApp</title>
-    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="shortcut icon" href="../public/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../public/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../public/styles.css">
   </head>
   <body>
 
@@ -13,14 +15,14 @@
     </h1>
 
     <div class="login-form">
-      <% if (!username) {%>
+      <% if (!user) {%>
         <form action="/login" method="POST">
           <label for="username">Enter a username:</label>
           <input id="username" type="text" name="username" placeholder="">
           <input type="submit" value="Sign in">
         </form>
       <% } else { %>
-        <span>You are logged in as <%= username %></span>
+        <span>You are logged in as <%= user.email %></span>
 
         <form action="/logout" method="POST">
           <input type="submit" value="Logout">

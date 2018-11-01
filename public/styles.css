@@ -26,14 +26,13 @@ body {
 
 .logo a {
   display: inline-block;
-  color: #202020;
+  color: #0B364A;
   text-decoration: none;
-  border-bottom: 1px solid transparent;
   transition: 0.2s ease;
 }
 
 .logo a:hover {
-  border-color: #000000;
+  color: #000000;
 }
 
 .login-form {

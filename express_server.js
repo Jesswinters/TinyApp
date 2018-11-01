@@ -7,7 +7,7 @@ const PORT = 8080;
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
-app.use('/styles', express.static(__dirname + '/styles'));
+app.use('/public', express.static(__dirname + '/public'));
 
 const urlDatabase = {
   'b2xVn2': 'http://www.lighthouselabs.ca',
@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
 app.get('/urls', (req, res) => {
   let templateVars = {
     urls: urlDatabase,
-    username: req.cookies.username,
+    user: req.body.id,
   };
   res.render('urls_index', templateVars);
 });
@@ -45,7 +45,7 @@ app.get('/urls', (req, res) => {
 app.get('/urls/new', (req, res) => {
   let templateVars = {
     urls: urlDatabase,
-    username: req.cookies.username,
+    user: req.body.id,
   };
   res.render('urls_new', templateVars);
 });
@@ -55,7 +55,7 @@ app.get('/urls/:id', (req, res) => {
   let templateVars = {
     shortURL: req.params.id,
     urls: urlDatabase,
-    username: req.cookies.username,
+    user: req.body.id,
   };
   res.render('urls_show', templateVars);
 });
@@ -63,35 +63,53 @@ app.get('/urls/:id', (req, res) => {
 // Register URL
 app.get('/register', (req, res) => {
   let templateVars = {
-    email: req.body.email,
-    password: req.body.password,
-    username: req.cookies.username,
+    user: req.body.id,
   };
   res.render('urls_register', templateVars);
 });
 
 // Post to register
 app.post('/register', (req, res) => {
-  const {email, code} = req.body;
-  res.redirect('/register/');
+  const email = req.body.email;
+  const password = req.body.password;
+  let id = generateRandomString(12);
+
+  if (!email || !password) {
+    res.status(400).send('Please enter an email and/or password.');
+  }
+
+  for (const index in users) {
+    if (email === users[index].email) {
+      res.status(400).send('Email already exists.');
+    }
+  }
+
+  users[id] = {
+    'id': id,
+    'email': email,
+    'password': password,
+  };
+
+  res.cookie('user_id', id);
+  res.redirect('/urls');
 });
 
 // Login URL
 app.post('/login', (req, res) => {
-  res.cookie('username', req.body.username);
-  res.redirect('/urls/');
+  res.cookie('user_id', req.body.id);
+  res.redirect('/urls');
 });
 
 // Logout URL
 app.post('/logout', (req, res) => {
-  res.clearCookie('username');
-  res.redirect('/urls/');
+  res.clearCookie('user_id');
+  res.redirect('/urls');
 });
 
 // Update URL
 app.post('/urls/:id', (req, res) => {
   urlDatabase[req.params.id] = req.body.longURL;
-  res.redirect('/urls/');
+  res.redirect('/urls');
 });
 
 // Delete URL
@@ -109,7 +127,7 @@ app.get('/u/:shortURL', (req, res) => {
 
 // Posts new random string for short URL when adding a new long URL
 app.post('/urls', (req, res) => {
-  let id = generateRandomString();
+  let id = generateRandomString(6);
   urlDatabase[id] = req.body.longURL;
   res.redirect(`/urls/${id}`);
 });
@@ -119,11 +137,11 @@ app.listen(PORT, () => {
 });
 
 // Function to generate random string for short URL
-const generateRandomString = () => {
+const generateRandomString = (stringLength) => {
   let randomString = '';
   let possibleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < stringLength; i++) {
     randomString += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
   }
 
