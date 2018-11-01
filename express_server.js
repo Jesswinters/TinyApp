@@ -14,6 +14,19 @@ const urlDatabase = {
   '9sm5xK': 'http://www.google.com',
 };
 
+const users = { 
+  'userRandomID': {
+    id: 'userRandomID', 
+    email: 'user@example.com', 
+    password: 'purple-monkey-dinosaur'
+  },
+  'user2RandomID': {
+    id: 'user2RandomID', 
+    email: 'user2@example.com', 
+    password: 'dishwasher-funk'
+  }
+};
+
 // Home page
 app.get('/', (req, res) => {
   res.send('Hello!');
@@ -45,6 +58,22 @@ app.get('/urls/:id', (req, res) => {
     username: req.cookies.username,
   };
   res.render('urls_show', templateVars);
+});
+
+// Register URL
+app.get('/register', (req, res) => {
+  let templateVars = {
+    email: req.body.email,
+    password: req.body.password,
+    username: req.cookies.username,
+  };
+  res.render('urls_register', templateVars);
+});
+
+// Post to register
+app.post('/register', (req, res) => {
+  const {email, code} = req.body;
+  res.redirect('/register/');
 });
 
 // Login URL

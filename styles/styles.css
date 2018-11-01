@@ -8,17 +8,20 @@ body {
 }
 
 body {
-  padding: 1rem 2rem;
+  padding: 2rem;
   margin: 0;
 }
 
 .site-header {
   display: flex;
   align-items: center;
+  margin-bottom: 2rem;
 }
 
 .logo {
   display: inline-block;
+  margin: 0;
+  font-size: 3rem;
 }
 
 .logo a {
@@ -42,10 +45,15 @@ label {
   display: block;
 }
 
+label[for='password'] {
+  margin-top: 1rem;
+}
+
 input[type='text'] {
   width: 15rem;
   padding: 0.5rem;
   font-size: 1rem;
+  border: 1px solid #000000;
 }
 
 input[type='submit'] {
