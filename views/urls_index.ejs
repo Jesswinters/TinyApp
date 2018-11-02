@@ -4,13 +4,13 @@
   <ul>
     <% for (let url in urls) { %>
       <li class="url-info">
-        <%= url + ': ' + urls[url] %>
+        <%= url + ': ' + urls[url].url %>
       </li>
       <li class="url-edit">
-        <a href="/urls/<%=url %>">Edit</a>
+        <a href="/urls/<%= url %>">Edit</a>
       </li>
       <li class="url-delete">
-        <form method="POST" action="/urls/<%=url %>/delete">
+        <form method="POST" action="/urls/<%= url %>/delete">
           <button>Delete</button>
         </form>
       </li>

@@ -2,8 +2,9 @@
 
 <section>
   <ul>
-    <li><%= shortURL %></li>
-    <li><%= urls[shortURL] %></li>
+    <li class="url-info">
+      <%= shortURL + ': ' + urls[shortURL].url %>
+    </li>
   </ul>
   <form action="/urls/<%= shortURL %>" method="POST">
     <label for="longURL">Update URL:</label>
