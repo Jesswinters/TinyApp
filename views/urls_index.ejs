@@ -17,9 +17,11 @@
     <% } %>
   </ul>
   
-  <span class="default-link">
-    <a href="/urls/new">Shorten New URL</a>
-  </span>
+  <% if (user_id !== undefined) {%>
+    <span class="default-link">
+      <a href="/urls/new">Shorten New URL</a>
+    </span>
+  <% } %>
 </section>
 
 <% include partials/_footer %>

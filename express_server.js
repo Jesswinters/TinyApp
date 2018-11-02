@@ -149,6 +149,9 @@ app.get('/urls/new', (req, res) => {
 
   if (!user) {
     user = {};
+
+    // Redirect to login page if user is not logged in
+    res.redirect('/login');
   }
 
   let templateVars = {
