@@ -102,8 +102,10 @@ app.get('/', (req, res) => {
 
   if (!user) {
     res.redirect('/login');
+    return;
   } else {
     res.redirect('/urls');
+    return;
   }
 });
 
@@ -127,17 +129,18 @@ app.get('/login', (req, res) => {
     user_id: user_id,
   };
 
-  res.render('urls_login', templateVars);
+  if (req.session.user_id) {
+    res.redirect('/urls');
+    return;
+  } else {
+    res.render('urls_login', templateVars);
+  }
 });
 
 // Login post
 app.post('/login', (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
-
-  if (req.session.user_id) {
-    res.redirect('/urls');
-  }
 
   let user = findUser(users, email);
 
@@ -153,6 +156,7 @@ app.post('/login', (req, res) => {
 
   req.session.user_id = user.id;
   res.redirect('/urls');
+  return;
 });
 
 // Register URL
@@ -171,7 +175,12 @@ app.get('/register', (req, res) => {
     user_id: user_id,
   };
 
-  res.render('urls_register', templateVars);
+  if (req.session.user_id) {
+    res.redirect('/urls');
+    return;
+  } else {
+    res.render('urls_register', templateVars);
+  }
 });
 
 // Post to register
@@ -199,12 +208,14 @@ app.post('/register', (req, res) => {
 
   req.session.user_id = id;
   res.redirect('/urls');
+  return;
 });
 
 // Logout URL
 app.post('/logout', (req, res) => {
   req.session = null;
   res.redirect('/urls');
+  return;
 });
 
 // Base URLs page
@@ -238,6 +249,7 @@ app.get('/urls/new', (req, res) => {
 
     // Redirect to login page if user is not logged in
     res.redirect('/login');
+    return;
   }
 
   let templateVars = {
@@ -274,6 +286,7 @@ app.get('/urls/:id', (req, res) => {
 
   if (!matchFound) {
     res.redirect('/urls');
+    return;
   } else {
     res.render('urls_show', templateVars);
   }
@@ -289,16 +302,32 @@ app.post('/urls/:id', (req, res) => {
       };
 
       res.redirect(`/urls/${req.params.id}`);
+      return;
     }
 
     res.redirect('/urls'); 
+    return;
   }
 });
 
-// Delete URL
+// Delete URL - deletes URL if user is logged in
 app.post('/urls/:id/delete', (req, res) => {
-  delete urlDatabase[req.params.id];
+  const user_id = req.session.user_id;
+
+  for (let id in urlDatabase) {
+    if (user_id === urlDatabase[id].userId) {
+      delete urlDatabase[req.params.id];
+    }
+  }
+
   res.redirect('/urls');
+  return;
+});
+
+// Delete URL - handle GET request if user is not logged in
+app.get('/urls/:id/delete', (req, res) => {
+  res.redirect('/urls');
+  return;
 });
 
 // Redirects to long URL based on short URL
@@ -310,18 +339,13 @@ app.get('/u/:shortURL', (req, res) => {
     user = {};
   }
 
-  // let shortURL = req.params.shortURL;
-  let longURL = urlDatabase[req.params.shortURL].url;
-
-  let templateVars = {
-    urls : urlDatabase,
-    id: user.id,
-    email: user.email,
-    user_id: user_id,
-    shortURL: req.params.id,
-  };
-
-  res.redirect(longURL, templateVars);
+  // Return 404 error if shortURL doesn't exist
+  if (urlDatabase[req.params.shortURL] === undefined) {
+    res.status(404).send('URL not found.');
+  } else {
+    res.redirect(urlDatabase[req.params.shortURL].url);
+    return;
+  }
 });
 
 // Posts new random string for short URL when adding a new long URL
@@ -336,6 +360,7 @@ app.post('/urls', (req, res) => {
   };
 
   res.redirect(`/urls/${id}`);
+  return;
 });
 
 app.listen(PORT, () => {

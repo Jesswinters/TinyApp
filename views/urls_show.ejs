@@ -1,17 +1,18 @@
 <% include partials/_header %>
 
 <section>
-  <ul>
-    <li class="url-info">
-      <%= shortURL + ': ' + urls[shortURL].url %>
-    </li>
-  </ul>
   <form action="/urls/<%= shortURL %>" method="POST">
+    <ul>
+      <li class="url-info">
+        <%= shortURL + ': ' + urls[shortURL].url %>
+      </li>
+    </ul>
+
     <label for="longURL">Update URL:</label>
     <input id="longURL" type="text" name="longURL" placeholder="http://">
     <input type="submit" value="Submit">
   </form>
-  
+
   <span class="default-link">
     <a href="/urls">Back</a>
   </span>
