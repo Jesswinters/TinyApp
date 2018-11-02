@@ -1,0 +1,29 @@
+<% include partials/_header %>
+
+<section>
+  <div class="login-form">
+    <% if (user_id === undefined) {%>
+      <form action="/login" method="POST">
+        <label for="email">Enter your email:</label>
+        <input id="email" type="text" name="email" placeholder="your@name.com">
+
+        <label for="password">Enter your password:</label>
+        <input id="password" type="text" name="password" placeholder="">
+
+        <input type="submit" value="Sign in">
+      </form>
+    <% } else { %>
+      <span>You are logged in as <%= email %></span>
+
+      <form action="/logout" method="POST">
+        <input type="submit" value="Logout">
+      </form>
+    <% } %>
+  </div>
+  
+  <span class="default-link">
+    <a href="/urls">Back</a>
+  </span>
+</section>
+
+<% include partials/_footer %>

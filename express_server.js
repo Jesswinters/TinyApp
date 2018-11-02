@@ -32,39 +32,62 @@ app.get('/', (req, res) => {
   res.send('Hello!');
 });
 
-// Base URLs page
-app.get('/urls', (req, res) => {
+// Login get
+app.get('/login', (req, res) => {
+  const user_id = req.cookies.id;		
+  let user = users[user_id];
+
+  if (!user) {
+    user = {};
+  }
+
+  if (!user.email) {
+    email = '';
+  }
+
   let templateVars = {
     urls: urlDatabase,
-    user: req.body.id,
+    id: user.id,
+    email: user.email,
+    user_id: user_id,
   };
-  res.render('urls_index', templateVars);
+
+  res.render('urls_login', templateVars);
 });
 
-// Renders when adding a new long URL
-app.get('/urls/new', (req, res) => {
-  let templateVars = {
-    urls: urlDatabase,
-    user: req.body.id,
-  };
-  res.render('urls_new', templateVars);
-});
+// Login post
+app.post('/login', (req, res) => {
+  let user = null;
 
-// Displays corresponding short URL that matches :id
-app.get('/urls/:id', (req, res) => {
-  let templateVars = {
-    shortURL: req.params.id,
-    urls: urlDatabase,
-    user: req.body.id,
-  };
-  res.render('urls_show', templateVars);
+  for (const user_Id in users) {
+    const currentUser = users[user_Id];
+
+    if (currentUser.email === req.body.email) {
+      user = currentUser;
+      break;
+    }
+
+    if (currentUser.password !== req.body.password) {
+      res.status(403).send('Invalid email and/or password.');
+    }
+  }
+
+  if (!user) {
+    res.status(403).send('Email not found.');
+  }
+
+  res.cookie('id', user.id);
+  res.redirect('/urls');
 });
 
 // Register URL
 app.get('/register', (req, res) => {
   let templateVars = {
-    user: req.body.id,
+    user_id: req.body.id,
+    email: req.body.email,
+    id: req.body.id,
   };
+
   res.render('urls_register', templateVars);
 });
 
@@ -90,20 +113,72 @@ app.post('/register', (req, res) => {
     'password': password,
   };
 
-  res.cookie('user_id', id);
-  res.redirect('/urls');
-});
-
-// Login URL
-app.post('/login', (req, res) => {
-  res.cookie('user_id', req.body.id);
+  let user_id = res.cookie('id', id);
   res.redirect('/urls');
 });
 
 // Logout URL
 app.post('/logout', (req, res) => {
-  res.clearCookie('user_id');
+  res.clearCookie('id');
   res.redirect('/urls');
+});
+
+// Base URLs page
+app.get('/urls', (req, res) => {
+  const user_id = req.cookies.id;
+  let user = users[user_id];
+
+  if (!user) {
+    user = {};
+  }
+
+  let templateVars = {
+    urls: urlDatabase,
+    id: user.id,
+    email: user.email,
+    user_id: user_id,
+  };
+
+  res.render('urls_index', templateVars);
+});
+
+// Renders when adding a new long URL
+app.get('/urls/new', (req, res) => {
+  const user_id = req.cookies.id;
+  let user = users[user_id];
+
+  if (!user) {
+    user = {};
+  }
+
+  let templateVars = {
+    urls: urlDatabase,
+    id: user.id,
+    email: user.email,
+    user_id: user_id,
+  };
+
+  res.render('urls_new', templateVars);
+});
+
+// Displays corresponding short URL that matches :id
+app.get('/urls/:id', (req, res) => {
+  const user_id = req.cookies.id;
+  let user = users[user_id];
+
+  if (!user) {
+    user = {};
+  }
+
+  let templateVars = {
+    shortURL: req.params.id,
+    urls: urlDatabase,
+    id: user.id,
+    email: user.email,
+    user_id: user_id,
+  };
+
+  res.render('urls_show', templateVars);
 });
 
 // Update URL

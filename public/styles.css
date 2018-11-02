@@ -35,9 +35,13 @@ body {
   color: #000000;
 }
 
+.header-logged-in {
+  display: inline-block;
+  padding: 0 1rem;
+}
+
 .login-form {
   display: inline-block;
-  margin-left: 2rem;
 }
 
 label {
@@ -85,7 +89,8 @@ ul {
 }
 
 .url-edit a,
-.default-link a {
+.default-link a,
+.header-link a {
   color: #167FFB;
 }
 
@@ -100,4 +105,9 @@ ul {
 .default-link {
   display: block;
   margin-top: 2rem;
+}
+
+.header-link {
+  display: inline-block;
+  margin-left: 0.5rem;
 }
