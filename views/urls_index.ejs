@@ -1,23 +1,27 @@
 <% include partials/_header %>
 
 <section>
-  <ul>
-    <% for (let url in urls) { %>
-      <li class="url-info">
-        <%= url + ': ' + urls[url].url %>
-      </li>
-      <li class="url-edit">
-        <a href="/urls/<%= url %>">Edit</a>
-      </li>
-      <li class="url-delete">
-        <form method="POST" action="/urls/<%= url %>/delete">
-          <button>Delete</button>
-        </form>
-      </li>
-    <% } %>
-  </ul>
-  
-  <% if (user_id !== undefined) {%>
+  <% if (!id) {%>
+    <span class="default-link">
+      Please <a href="/login">login</a> to see your URLs.
+    </span>
+  <%} else {%>
+    <ul>
+      <% for (let url in urls) { %>
+        <li class="url-info">
+          <%= url + ': ' + urls[url].url %>
+        </li>
+        <li class="url-edit">
+          <a href="/urls/<%= url %>">Edit</a>
+        </li>
+        <li class="url-delete">
+          <form method="POST" action="/urls/<%= url %>/delete">
+            <button>Delete</button>
+          </form>
+        </li>
+      <% } %>
+    </ul>
+
     <span class="default-link">
       <a href="/urls/new">Shorten New URL</a>
     </span>
