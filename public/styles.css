@@ -164,3 +164,8 @@ ul {
   display: block;
   margin-top: 2rem;
 }
+
+#password {
+  -webkit-text-security: disc;
+  -moz-text-security: disc;
+}
