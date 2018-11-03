@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width" />
   <head>
     <title>TinyApp</title>
     <link rel="shortcut icon" href="../public/favicon.ico" type="image/x-icon">
@@ -15,12 +16,14 @@
     </h1>
 
     <% if (!id) {%>
-      <span class="header-link">
-        <a href="/register">Register</a>
-      </span>
-      <span class="header-link">
-        <a href="/login">Login</a>
-      </span>
+      <div class="site-header--links">
+        <span class="header-link--login">
+          <a href="/login">Login</a>
+        </span>
+        <span class="header-link--register">
+          <a href="/register">Register</a>
+        </span>
+      </div>
     <% } else { %>
       <span class="header-logged-in">
         You are logged in as <%= email %>

@@ -1,26 +1,35 @@
 <% include partials/_header %>
 
-<section>
+<section class="content-container">
   <% if (!id) {%>
     <span class="default-link">
       Please <a href="/login">login</a> to see your URLs.
     </span>
   <%} else {%>
-    <ul>
+    <div class="content-urls--headers">
+      <h3>Short URL: Long URL</h3>
+      <h3>Actions</h3>
+    </div>
+
+    <div class="content-urls">
       <% for (let url in urls) { %>
-        <li class="url-info">
+        <span class="url-info">
           <%= url + ': ' + urls[url].url %>
-        </li>
-        <li class="url-edit">
-          <a href="/urls/<%= url %>">Edit</a>
-        </li>
-        <li class="url-delete">
-          <form method="POST" action="/urls/<%= url %>/delete">
-            <button>Delete</button>
-          </form>
-        </li>
+        </span>
+
+        <div class="content-urls--actions">
+          <span class="url-edit">
+            <a href="/urls/<%= url %>">Edit</a>
+          </span>
+
+          <span class="url-delete">
+            <form method="POST" action="/urls/<%= url %>/delete">
+              <input type="submit" value="Delete">
+            </form>
+          </span>
+        </div>
       <% } %>
-    </ul>
+    </div>
 
     <span class="default-link">
       <a href="/urls/new">Shorten New URL</a>

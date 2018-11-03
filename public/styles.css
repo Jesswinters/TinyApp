@@ -1,21 +1,38 @@
 /* Import Open Sans Google Font */
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
-html,
 body {
+  margin: 0;
   font-family: 'Open Sans', sans-serif;
   font-size: 1rem;
 }
 
-body {
-  padding: 2rem;
-  margin: 0;
+@media screen and (max-width: 769px) {
+  body {
+    font-size: 1.5rem;
+  }
 }
 
 .site-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
   margin-bottom: 2rem;
+  background: rgba(0,12,13,0.03);
+  border-bottom: 1px solid rgba(0,12,13,0.09);
+}
+
+@media screen and (max-width: 376px) {
+  .site-header {
+    display: block;
+  }
+}
+
+.header-link--login,
+.header-link--register {
+  display: inline-block;
+  margin-left: 0.5rem;
 }
 
 .logo {
@@ -44,6 +61,34 @@ body {
   display: inline-block;
 }
 
+.content-container {
+  padding: 0 2rem 2rem;
+}
+
+.content-urls,
+.content-urls--headers {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 376px) {
+  .content-urls,
+  .content-urls--headers {
+    display: block;
+  }
+}
+
+.content-urls--headers {
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(0,12,13,0.09);
+}
+
+.content-urls--headers h3 {
+  margin: 0;
+}
+
 label {
   display: block;
 }
@@ -56,21 +101,34 @@ input[type='text'] {
   width: 15rem;
   padding: 0.5rem;
   font-size: 1rem;
-  border: 1px solid #000000;
+  border: 1px solid rgba(0, 12, 13, 0.24);
+  border-radius: 4px;
 }
 
+.header-link--register a,
+.url-edit a,
 input[type='submit'] {
   padding: 0.5rem;
   font-size: 1rem;
   font-weight: 500;
-  background-color: #f0f0f0;
-  border: 1px solid #000000;
+  text-decoration: none;
+  color: #FFFFFF;
+  background-color: #30bf4a;
+  border: 1px solid rgba(0, 12, 13, 0.24);
+  border-radius: 4px;
   cursor: pointer;
   transition: 0.2s ease;
 }
 
+.url-edit a {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+
+.header-link--register a:hover,
+.url-edit a:hover,
 input[type='submit']:hover {
-  background-color: #FFFFFF;
+  background-color: #008733;
 }
 
 ul {
@@ -85,29 +143,23 @@ ul {
 .url-edit,
 .url-delete {
   display: inline-block;
-  margin-top: 0.25rem;
 }
 
-.url-edit a,
+.url-delete {
+  margin-left: 0.5rem;
+}
+
 .default-link a,
-.header-link a {
-  color: #167FFB;
+.header-link--login a {
+  color: rgb(0, 120, 207);
 }
 
-.url-delete button {
-  font-size: 1rem;
-  color: #167FFB;
-  text-decoration: underline;
-  border: 0;
-  cursor: pointer;
+.default-link a:hover,
+.header-link--login a:hover {
+  color: rgb(2, 63, 107);
 }
 
 .default-link {
   display: block;
   margin-top: 2rem;
-}
-
-.header-link {
-  display: inline-block;
-  margin-left: 0.5rem;
 }
