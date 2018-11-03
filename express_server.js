@@ -1,4 +1,5 @@
 const express = require('express');
+const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const bcrypt = require('bcrypt');
@@ -8,11 +9,24 @@ const PORT = 8080;
 
 app.set('view engine', 'ejs');
 app.use('/public', express.static(__dirname + '/public'));
+// Override with POST having ?_method=DELETE
+app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({extended: true}));
+
 app.use(cookieSession({
   name: 'session',
   keys: ['key1', 'key2']
 }));
+
+app.use((req, res, next) => {
+  // If using _method, change into DELETE method
+  if (req.query._method === 'DELETE') {
+    req.method = 'DELETE';
+    req.url = req.path;
+  }
+
+  next(); 
+});
 
 /*-----------------------------
 Tiny App functions
@@ -311,7 +325,7 @@ app.post('/urls/:id', (req, res) => {
 });
 
 // Delete URL - deletes URL if user is logged in
-app.post('/urls/:id/delete', (req, res) => {
+app.delete('/urls/:id', (req, res) => {
   const user_id = req.session.user_id;
 
   for (let id in urlDatabase) {

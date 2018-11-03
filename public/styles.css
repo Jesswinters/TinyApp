@@ -20,7 +20,8 @@ body {
   padding: 2rem;
   margin-bottom: 2rem;
   background: rgba(0,12,13,0.03);
-  border-bottom: 1px solid rgba(0,12,13,0.09);
+  border-bottom: 1px solid rgba(0, 12, 13, 0.09);
+  box-shadow: 0 2px 8px rgba(0, 12, 13, 0.09);
 }
 
 @media screen and (max-width: 376px) {
